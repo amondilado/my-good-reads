@@ -3,10 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import FavoritesProvider from './contexts/favorites/favorites.context'
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+      <FavoritesProvider>
+        <App />
+      </FavoritesProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

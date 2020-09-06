@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext} from "react";
 import { getBooksByType } from "./book-search.service";
-
+import {AppContext} from '../../contexts/context';
 
 const BookSearch = () => {
+    const { state, dispatch } = useContext(AppContext);
     const [bookType, updateBookType] = useState("");
     const [bookTypeToSearch, updateBookTypeToSearch] = useState("");
-    const [allAvailableBooks, setAllAvailableBooks] = useState([]);
+
     async function requestBooks() {
         if (bookTypeToSearch) {
+            // dispatch({ type: 'request' });
             const allBooks = await getBooksByType(bookTypeToSearch);
-            setAllAvailableBooks(allBooks);
+            dispatch({ type: 'SET_BOOKS', payload: allBooks.items});
         }
     }
 
@@ -19,6 +21,7 @@ const BookSearch = () => {
         }
         getAllBooks();
     }, [bookTypeToSearch]);
+
     return (
             <>
                 <div className="book--container">
@@ -26,9 +29,8 @@ const BookSearch = () => {
                         <div>
                             <form
                                 onSubmit={(e) => {
-                                    debugger;
                                     e.preventDefault();
-                                   updateBookTypeToSearch(bookType)
+                                    updateBookTypeToSearch(bookType)
                                 }}
                             >
                                 <input
@@ -41,26 +43,20 @@ const BookSearch = () => {
                                     onChange={e => updateBookType(e.target.value)}
                                 />
                             </form>
-                            {!bookType && (
+                            {!bookType ? (
                                 <div className="empty">
                                     <p>
                                         Try searching for a topic, for example
-                                        <a onClick={() => {
-                                                updateBookType("Javascript");
-                                            }}
-                                        >
-                                            {" "}
-                                            "Javascript"
-                                        </a>
+                                        <button className="btn btn-ghost">"Javascript"</button>
                                     </p>
                                 </div>
-                            )}
-
+                              ) : (
+                                    <p>items fount: {state.items.length}</p>
+                                )
+                            }
                         </div>
                     </div>
                 </div>
-                {                <pre>{JSON.stringify(allAvailableBooks, null, 4)}</pre>
-                }
             </>
     );
 };
