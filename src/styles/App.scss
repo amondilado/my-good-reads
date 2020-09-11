@@ -1,4 +1,5 @@
 @import './variables';
+@import './type';
 @import './buttons';
 
 * {
@@ -10,11 +11,8 @@ body {
   'Helvetica Neue', Arial, sans-serif;
 }
 
-h1,
-h2 {
-  font-size: 24px;
-  margin: $spacing-xxs 0;
-  font-weight: 300;
+form {
+  margin-bottom: $spacing-xs;
 }
 
 input {
@@ -53,58 +51,22 @@ a {
 .header--content {
   display: flex;
   height: 10vh;
-  > * {
-    display: flex;
-    align-items: center;
-  }
 }
 
-main {
+.main-content {
   padding: $spacing-xs $spacing-xxs;
   min-width: 300px;
   max-width: 100vw;
   margin: 0 auto;
-}
-
-.reading-list-container {
-  padding: 0;
-  width: 400px;
-  height: 100vh;
-
-  h2 {
-    position: relative;
-    color: $white;
-    background-color: $gray80;
-    margin: 0;
-    padding: 0.75rem;
-    text-align: center;
-  }
-
-  button {
-    position: absolute;
-    top: $spacing-xxs;
-    right: $spacing-xxs;
-    padding: 0;
-    min-width: 36px;
-  }
-}
-
-.reading-list-content {
-  padding: $spacing-xxs;
+  display: flex;
 }
 
 .empty {
   display: flex;
-  text-align: center;
   align-items: center;
   justify-content: center;
   min-height: 50vh;
   font-size: 1.5rem;
-  color: $gray40;
-}
-
-form {
-  margin-bottom: $spacing-xs;
 }
 
 .full-width {
@@ -117,15 +79,7 @@ form {
 .book--container {
   display: flex;
   flex-flow: row nowrap;
-  justify-content:space-around;
+  justify-content: space-around;
   align-items: stretch;
-}
-
-.search-params {
   flex-grow: 3;
-
-}
-.sidebar {
-  flex-grow: 1;
-
 }

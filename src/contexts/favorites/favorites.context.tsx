@@ -1,5 +1,5 @@
-import React, {createContext, useState, useEffect, Dispatch} from 'react';
-import { addItemToFavorites } from './favorites.utils';
+import React, {createContext, useState, useEffect} from 'react';
+import {addItemToFavorites, isItemInFavorites, removeItemFromFavorites} from './favorites.utils';
 import {FavoriteBookType} from './favorites.interface';
 
 // const FavoritesContext = createContext({
@@ -12,34 +12,41 @@ import {FavoriteBookType} from './favorites.interface';
 
 export const FavoritesContext = createContext<{
     favorites: FavoriteBookType[];
+    favoritesCount: number;
     addItem: (item: FavoriteBookType) => FavoriteBookType | void;
+    removeItem: (id: string) => FavoriteBookType | void;
+    isFavorite: (id: string) => boolean;
 }>({
     favorites: [],
+    favoritesCount: 0,
     addItem: () => {},
+    removeItem: () => {},
+    isFavorite: () => false
 });
 
 const FavoritesProvider: React.FC = ({children}) => {
     const [favorites, setFavorites] = useState<FavoriteBookType[]>([]);
-    // const [favoritesCount, setFavoritesCount] = useState(0);
+    const [favoritesCount, setFavoritesCount] = useState(0);
 
     const addItem = (item: FavoriteBookType) => {
-        // setFavorites(addItemToFavorites(favorites, item));
-        console.log('to addItem', item);
-        setFavorites([...favorites, item]);
+        setFavorites(addItemToFavorites(favorites, item) || favorites);
     };
-    // const removeItem = item => setFavorites(removeItemFromCart(favorites, item));
+    const isFavorite = (id: string) => {
+        return isItemInFavorites(favorites, id);
+    };
+    const removeItem = (id: string) => setFavorites(removeItemFromFavorites(favorites, id) || favorites);
 
-    // useEffect(() => {
-    //     setFavoritesCount(getCartItemsCount(favorites));
-    // }, [favorites]);
+    useEffect(() => {
+        setFavoritesCount(favorites.length);
+    }, [favorites]);
 
     return (
         <FavoritesContext.Provider value={{
             favorites,
-            // favoritesCount,
+            favoritesCount,
             addItem,
-            // removeItem,
-            // isFavorite
+            isFavorite,
+            removeItem,
         }}>
             {children}
         </FavoritesContext.Provider>

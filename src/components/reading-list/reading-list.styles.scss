@@ -1,0 +1,31 @@
+@import '../../styles/variables';
+
+.reading-list-container {
+  padding: 0;
+  width: 400px;
+  height: 100vh;
+
+  h2 {
+    position: relative;
+    color: $white;
+    background-color: $gray80;
+    margin: 0;
+    padding: 0.75rem;
+    text-align: center;
+  }
+
+  button {
+    position: absolute;
+    top: $spacing-xxs;
+    right: $spacing-xxs;
+    padding: 0;
+    min-width: 36px;
+  }
+}
+
+.reading-list-content {
+  padding: $spacing-xxs;
+}
+.reading-list-item {
+  position: relative;
+}

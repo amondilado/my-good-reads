@@ -1,21 +1,21 @@
 import React, {useContext} from 'react';
 import './book-list.scss';
-import {AppContext} from '../../contexts/context';
 import BookCard from '../book-card/book-card';
+import {BookResultsType} from '../book-card/book-card.interface';
 
-const BookList: React.FC = () => {
-    const state = useContext(AppContext);
-    const bookResults = state.state.items;
-
-    return (
-        <div className="book-list">
-            {bookResults.length > 0 && (<h2>Search results</h2>)}
-            {bookResults.map(bookItem => (<BookCard
-                key={bookItem.id}
-                id={bookItem.id}
-                volumeInfo={bookItem.volumeInfo}
-            />))}
-        </div>
-    );
+const BookList: React.FC<BookResultsType> = ({bookResults}) => {
+    const hasResults = bookResults.length > 0;
+    if (hasResults) {
+        return (
+            <div className="book-list">
+                <h2>Search results</h2>
+                {bookResults.map(bookItem =>
+                    (<BookCard key={bookItem.id} id={bookItem.id} volumeInfo={bookItem.volumeInfo}/>)
+                )}
+            </div>
+        );
+    } else {
+        return (<h2>Search results</h2>)
+    }
 };
 export default BookList;

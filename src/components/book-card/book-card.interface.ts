@@ -12,3 +12,7 @@ export interface BookType {
     id: string;
     volumeInfo: VolumeInfo;
 }
+
+export type BookResultsType = {
+    bookResults: BookType[]
+};

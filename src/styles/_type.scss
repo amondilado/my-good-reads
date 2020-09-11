@@ -1,0 +1,22 @@
+// Headings
+h1,
+h2 {
+  font-size: 24px;
+  margin: $spacing-xxs 0;
+  font-weight: 300;
+}
+
+// Size
+.small {
+  font-size: .85em;
+}
+
+// Align
+.text-center {
+  text-align: center;
+}
+
+// Color
+.text-muted {
+  color: $gray40;
+}

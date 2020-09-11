@@ -1,17 +1,24 @@
-import React, { useEffect, useState, useContext} from "react";
+import React, { useEffect, useState, useContext, Dispatch} from "react";
 import { getBooksByType } from "./book-search.service";
-import {AppContext} from '../../contexts/context';
+import {BookType} from '../book-card/book-card.interface';
+import BookCard from '../book-card/book-card';
 
-const BookSearch = () => {
-    const { state, dispatch } = useContext(AppContext);
-    const [bookType, updateBookType] = useState("");
+// interface DispatchProps {
+//     booksSetter: Dispatch<BookType[]>
+// }
+// const BookSearch: React.FC<DispatchProps> = ({booksSetter}) => {
+const BookSearch: React.FC = () => {
+    const [searchResults, updateSearchResults] = useState<BookType[]>([]);
+    const [bookType, updateBookType] = useState<string>("");
     const [bookTypeToSearch, updateBookTypeToSearch] = useState("");
 
     async function requestBooks() {
         if (bookTypeToSearch) {
             // dispatch({ type: 'request' });
             const allBooks = await getBooksByType(bookTypeToSearch);
-            dispatch({ type: 'SET_BOOKS', payload: allBooks.items});
+            // dispatch({ type: 'SET_BOOKS', payload: allBooks.items});
+            // await booksSetter(allBooks.items);
+            updateSearchResults(allBooks.items);
         }
     }
 
@@ -30,7 +37,7 @@ const BookSearch = () => {
                             <form
                                 onSubmit={(e) => {
                                     e.preventDefault();
-                                    updateBookTypeToSearch(bookType)
+                                    updateBookTypeToSearch(bookType);
                                 }}
                             >
                                 <input
@@ -43,15 +50,19 @@ const BookSearch = () => {
                                     onChange={e => updateBookType(e.target.value)}
                                 />
                             </form>
+
                             {!bookType ? (
-                                <div className="empty">
+                                <div className="text-center text-muted empty">
                                     <p>
                                         Try searching for a topic, for example
-                                        <button className="btn btn-ghost">"Javascript"</button>
+                                        <button className="btn btn-ghost" onClick={() => {updateBookType("Javascript")}}>
+                                            "Javascript"
+                                        </button>
                                     </p>
                                 </div>
-                              ) : (
-                                    <p>items fount: {state.items.length}</p>
+                              )
+                              : searchResults.map(book =>
+                                    (<BookCard key={book.id} id={book.id} volumeInfo={book.volumeInfo}/>)
                                 )
                             }
                         </div>
