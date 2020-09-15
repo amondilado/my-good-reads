@@ -1,3 +1,31 @@
+@import '../../styles/variables';
+$book-card-img-width-mobile: 80px;
+
+.img-fluid {
+  height: auto;
+  max-width: 100%;
+}
+
 .book-card {
+  border: 1px solid $gray20;
+  border-radius: 4px;
   display: flex;
+  margin-top: .5rem;
+  padding: $spacing-xs;
+
+  figure {
+    margin: 0 0 $spacing-xxs 0;
+  }
+}
+.book-media {
+  flex: 0 0 $book-card-img-width-mobile;
+  max-width: $book-card-img-width-mobile;
+
+  .btn {
+    width: 100%;
+  }
+}
+.book-info {
+  flex-grow: 1;
+  padding-left: $spacing-xs;
 }

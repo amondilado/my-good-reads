@@ -11,11 +11,13 @@ const BookCard: React.FC<BookType> = ({id, volumeInfo}) => {
 
     return (
         <article className="book book-card">
-            <div className="book-media">
-                {/*<img src={`${imageLink}`} alt="title"/> TODO figure*/}
+            <div className="text-center book-media">
+                <figure>
+                    <img src={`${imageLink}`} alt="title" className="img-fluid"/>
+                </figure>
                 {isFavorite(id)
-                    ? (<button className="btn btn-remove-favorite" onClick={() => removeItem(id)}>Remove</button>)
-                    : (<button className="btn btn-add-favorite" onClick={() => addItem(favoriteItem)}>Add</button>)
+                    ? (<button className="btn btn-outline-accent btn-remove-favorite" onClick={() => removeItem(id)} title="Remove from reading list">Remove</button>)
+                    : (<button className="btn btn-accent btn-add-favorite" onClick={() => addItem(favoriteItem)} title="Add to reading list">Add</button>)
                 }
             </div>
             <div className="small book-info">

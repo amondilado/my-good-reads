@@ -1,31 +1,54 @@
 @import '../../styles/variables';
 
 .reading-list-container {
-  padding: 0;
-  width: 400px;
-  height: 100vh;
+  background-color: $gray10;
 
   h2 {
-    position: relative;
-    color: $white;
     background-color: $gray80;
-    margin: 0;
+    color: $white;
+    position: relative;
     padding: 0.75rem;
-    text-align: center;
   }
-
-  button {
-    position: absolute;
-    top: $spacing-xxs;
-    right: $spacing-xxs;
-    padding: 0;
-    min-width: 36px;
-  }
+}
+.reading-list-count {
+  background-color: $white;
+  border-radius: 50%;
+  color: $gray80;
+  font-size: .80em;
+  font-weight: bold;
+  padding: .2em;
+  height: 34px;
+  width: 34px;
 }
 
 .reading-list-content {
   padding: $spacing-xxs;
+  margin-left: 0;
+  margin-top: 0;
+  list-style-type: none;
 }
 .reading-list-item {
-  position: relative;
+  border-bottom: 1px solid $gray20;
+  padding: $spacing-xxs;
+
+  .btn-remove-favorite {
+    height: 32px;
+    width: 32px;
+  }
+}
+
+@media (min-width: 992px) {
+  .reading-list-container {
+    position: fixed;
+    //min-height: calc(100vh - #{$header-height} - .5rem);
+    height: 100%;
+    left: 72%;
+    width: 28%;
+    bottom: 0;
+    top: $header-height;
+  }
+  .reading-list-content {
+    max-height: 80%;
+    overflow: auto;
+  }
 }

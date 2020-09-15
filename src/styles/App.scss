@@ -1,5 +1,6 @@
 @import './variables';
 @import './type';
+@import './layout';
 @import './buttons';
 
 * {
@@ -16,10 +17,16 @@ form {
 }
 
 input {
-  font-size: 0.8rem;
   border: none;
   border-bottom: 1px solid $gray40;
+  font-weight: bold;
+  font-size: 1rem;
   padding: $spacing-xxs;
+
+  &::placeholder {
+    font-size: .8em;
+    font-weight: normal;
+  }
 }
 
 a {
@@ -50,15 +57,15 @@ a {
 
 .header--content {
   display: flex;
-  height: 10vh;
+  align-items: center;
+  height: $header-height;
 }
 
 .main-content {
-  padding: $spacing-xs $spacing-xxs;
+  padding: $spacing-xs;
   min-width: 300px;
   max-width: 100vw;
   margin: 0 auto;
-  display: flex;
 }
 
 .empty {
@@ -72,14 +79,40 @@ a {
 .full-width {
   width: 100%;
 }
-.book {
-  border: 1px solid silver;
-  margin-top: .5rem;
-}
+
 .book--container {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-around;
-  align-items: stretch;
-  flex-grow: 3;
+  margin-bottom: $spacing-xs;
+}
+
+@media (min-width: 992px) {
+  .main-content {
+    display: flex;
+    padding: 0;
+  }
+  .book--container,
+  .sidebar {
+    padding-left: 2%;
+  }
+  .book--container {
+    flex: 0 0 70%;
+    max-width: 70%;
+    padding-top: 4rem;
+  }
+  .sidebar {
+    flex: 0 0 30%;
+    max-width: 30%;
+  }
+  .footer {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+  }
+  .search-params form {
+    background: $white;
+    padding: $spacing-xs 0 $spacing-xs 2rem;
+    position: fixed;
+    left: 0;
+    top: $header-height;
+    width: 70%;
+  }
 }

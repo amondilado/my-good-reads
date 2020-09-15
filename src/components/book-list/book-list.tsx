@@ -1,5 +1,4 @@
-import React, {useContext} from 'react';
-import './book-list.scss';
+import React from 'react';
 import BookCard from '../book-card/book-card';
 import {BookResultsType} from '../book-card/book-card.interface';
 

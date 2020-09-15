@@ -1,12 +1,9 @@
-import React, { useEffect, useState, useContext, Dispatch} from "react";
-import { getBooksByType } from "./book-search.service";
+import React, {useEffect, useState} from "react";
+import {getBooksByType} from "./book-search.service";
 import {BookType} from '../book-card/book-card.interface';
 import BookCard from '../book-card/book-card';
+import {debounce} from '../../shared/fetchUrl/fetchUrl';
 
-// interface DispatchProps {
-//     booksSetter: Dispatch<BookType[]>
-// }
-// const BookSearch: React.FC<DispatchProps> = ({booksSetter}) => {
 const BookSearch: React.FC = () => {
     const [searchResults, updateSearchResults] = useState<BookType[]>([]);
     const [bookType, updateBookType] = useState<string>("");
@@ -14,11 +11,10 @@ const BookSearch: React.FC = () => {
 
     async function requestBooks() {
         if (bookTypeToSearch) {
-            // dispatch({ type: 'request' });
             const allBooks = await getBooksByType(bookTypeToSearch);
-            // dispatch({ type: 'SET_BOOKS', payload: allBooks.items});
-            // await booksSetter(allBooks.items);
-            updateSearchResults(allBooks.items);
+            if(typeof allBooks !== 'undefined' && allBooks.hasOwnProperty('items')) {
+                updateSearchResults(allBooks.items);
+            }
         }
     }
 
@@ -26,20 +22,15 @@ const BookSearch: React.FC = () => {
         async function getAllBooks() {
             await requestBooks();
         }
-        getAllBooks();
+        debounce(getAllBooks, 500)();
     }, [bookTypeToSearch]);
 
     return (
             <>
                 <div className="book--container">
-                    <div className="search-params">
+                    <div className="full-width search-params">
                         <div>
-                            <form
-                                onSubmit={(e) => {
-                                    e.preventDefault();
-                                    updateBookTypeToSearch(bookType);
-                                }}
-                            >
+                            <form autoComplete="off">
                                 <input
                                     className="full-width"
                                     autoFocus
@@ -47,7 +38,10 @@ const BookSearch: React.FC = () => {
                                     type="search"
                                     value={bookType}
                                     placeholder="Search for books to add to your reading list and press Enter"
-                                    onChange={e => updateBookType(e.target.value)}
+                                    onChange={e => {
+                                        updateBookType(e.target.value);
+                                        updateBookTypeToSearch(e.target.value);
+                                    }}
                                 />
                             </form>
 
@@ -55,7 +49,10 @@ const BookSearch: React.FC = () => {
                                 <div className="text-center text-muted empty">
                                     <p>
                                         Try searching for a topic, for example
-                                        <button className="btn btn-ghost" onClick={() => {updateBookType("Javascript")}}>
+                                        <button className="btn btn-ghost" onClick={() => {
+                                            updateBookType("Javascript");
+                                            updateBookTypeToSearch("Javascript");
+                                        }}>
                                             "Javascript"
                                         </button>
                                     </p>

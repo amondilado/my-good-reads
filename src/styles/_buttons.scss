@@ -1,20 +1,50 @@
 .btn {
   background-color: transparent;
-  border: 1px solid transparent;
+  border: 1px solid $gray20;
   cursor: pointer;
   text-align: center;
   vertical-align: middle;
-  padding: .375rem .75rem;
-  font-size: 1em;
+  padding: .375rem .5rem;
+  font-size: .813rem;
   line-height: 1;
   user-select: none;
+
+  &:not(.btn-ghost) {
+    box-shadow: 0 0 5px rgba(0,0,0,.1);
+  }
+
+  &:hover, &:focus {
+    color: $blue-accent;
+  }
 }
 
 .btn-ghost {
+  border: 0;
   color: $blue-accent;
+  font-size: 1em;
+  margin-top: -.125em;
   padding: 0 .25em;
 
   &:hover, &:focus {
+    color: $blue-dark;
+  }
+}
+
+.btn-accent {
+  background-color: $blue-accent;
+  color: $white;
+
+  &:hover, &:focus {
+    background-color: $blue-dark;
+    color: $white;
+  }
+}
+.btn-outline-accent {
+  border-color: $blue-accent;
+  color: $blue-accent;
+
+  &:hover, &:focus {
+    border-color: $blue-dark;
     color: $blue-dark;
   }
 }

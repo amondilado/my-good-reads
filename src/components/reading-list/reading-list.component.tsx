@@ -6,11 +6,19 @@ const FavoriteBooks: React.FC = () => {
     const { favorites, favoritesCount, removeItem } = useContext(FavoritesContext);
 
     return (
-        <div className="reading-list-container">
-            <h2>My reading list {favoritesCount}</h2>
-            {favorites.map(item =>
-              (<div className="reading-list-item">{item.title} <button className="btn btn-remove-favorite" onClick={() => removeItem(item.id)}>Remove</button></div>)
-            )}
+        <div className={"small reading-list-container" + (!favoritesCount ? " _isEmpty" : "")}>
+            <h2 className="flex-justify-center">My reading list
+                <span className="flex-center reading-list-count">{favoritesCount}</span>
+            </h2>
+
+            {favoritesCount ? (
+                <ul className="reading-list-content">
+                {favorites.map(item =>
+                  (<li className="flex-justify-center reading-list-item" key={item.id}>{item.title} <button className="btn btn-remove-favorite" onClick={() => removeItem(item.id)}>
+                      <span className="sr-only">Remove from reading list</span> &times;
+                  </button></li>)
+                )}
+            </ul>) : (<p className="text-muted text-center">Your reading list is empty.</p>)}
         </div>
     )
 }

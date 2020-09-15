@@ -1,4 +1,4 @@
-import  fetchUrl from './../shared/fetchUrl/fetchUrl';
+import fetchUrl from '../../shared/fetchUrl/fetchUrl';
 
 export async function getBooksByType(type: string) {
     try {
@@ -9,8 +9,9 @@ export async function getBooksByType(type: string) {
             }
         });
     } catch(exception) {
+        console.log('exception', exception);
+
         return [];
 
     }
 }
-
