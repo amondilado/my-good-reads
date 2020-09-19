@@ -1,14 +1,7 @@
+// TODO rename to readingList
 import React, {createContext, useState, useEffect} from 'react';
 import {addItemToFavorites, isItemInFavorites, removeItemFromFavorites} from './favorites.utils';
 import {FavoriteBookType} from './favorites.interface';
-
-// const FavoritesContext = createContext({
-//     favorites: [],
-//     // favoritesCount: 0,
-//     addItem: () => {},
-//     // removeItem: () => {},
-//     // isFavorite: () => {}
-// });
 
 export const FavoritesContext = createContext<{
     favorites: FavoriteBookType[];

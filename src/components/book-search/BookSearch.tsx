@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {getBooksByType} from "./book-search.service";
-import {BookType} from '../book-card/book-card.interface';
-import BookCard from '../book-card/book-card';
+import {BookCardType} from '../book-card/book-card.interface';
 import {debounce} from '../../shared/fetchUrl/fetchUrl';
+import BookList from '../book-list/book-list';
 
 const BookSearch: React.FC = () => {
-    const [searchResults, updateSearchResults] = useState<BookType[]>([]);
+    const [searchResults, updateSearchResults] = useState<BookCardType[]>([]);
     const [bookType, updateBookType] = useState<string>("");
     const [bookTypeToSearch, updateBookTypeToSearch] = useState("");
 
@@ -25,6 +25,11 @@ const BookSearch: React.FC = () => {
         debounce(getAllBooks, 500)();
     }, [bookTypeToSearch]);
 
+    // Update bookTypeToSearch when bookType is update
+    useEffect(() => {
+        updateBookTypeToSearch(bookType);
+    }, [bookType]);
+
     return (
             <>
                 <div className="book--container">
@@ -40,7 +45,6 @@ const BookSearch: React.FC = () => {
                                     placeholder="Search for books to add to your reading list and press Enter"
                                     onChange={e => {
                                         updateBookType(e.target.value);
-                                        updateBookTypeToSearch(e.target.value);
                                     }}
                                 />
                             </form>
@@ -51,16 +55,13 @@ const BookSearch: React.FC = () => {
                                         Try searching for a topic, for example
                                         <button className="btn btn-ghost" onClick={() => {
                                             updateBookType("Javascript");
-                                            updateBookTypeToSearch("Javascript");
                                         }}>
                                             "Javascript"
                                         </button>
                                     </p>
                                 </div>
                               )
-                              : searchResults.map(book =>
-                                    (<BookCard key={book.id} id={book.id} volumeInfo={book.volumeInfo}/>)
-                                )
+                              : (<BookList bookResults={searchResults} />)
                             }
                         </div>
                     </div>

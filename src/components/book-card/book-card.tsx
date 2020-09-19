@@ -1,13 +1,14 @@
 import React, {useContext} from 'react';
-import './book-card.scss';
-import {BookType} from './book-card.interface';
+import './book-card.styles.scss';
+import {BookCardType} from './book-card.interface';
 import {FavoritesContext} from '../../contexts/favorites/favorites.context';
 
-const BookCard: React.FC<BookType> = ({id, volumeInfo}) => {
+const BookCard: React.FC<BookCardType> = ({id, volumeInfo}) => {
     const { addItem, removeItem, isFavorite } = useContext(FavoritesContext);
     const { title, authors = [], description, imageLinks, publishedDate, publisher } = volumeInfo;
+    // TODO set fallback img
     const imageLink = imageLinks && imageLinks.hasOwnProperty('smallThumbnail') ? imageLinks['smallThumbnail'] : '';
-    const favoriteItem = { id, title, imageLink, authors };
+    const favoriteItem = { id, title };
 
     return (
         <article className="book book-card">
@@ -22,8 +23,8 @@ const BookCard: React.FC<BookType> = ({id, volumeInfo}) => {
             </div>
             <div className="small book-info">
                 <h2 className="book-title">{title}</h2>
-                <div>by: {authors.map((author, idx) => (
-                    (<span key={idx}>{author}</span>)
+                <div className="book-authors">by: {authors.map((author, idx) => (
+                    (<span key={idx} className="book-author">{author}</span>)
                 ))}</div>
                 <div>{publisher} {publishedDate}</div>
                 <p>{description}</p>
