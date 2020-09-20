@@ -1,10 +1,10 @@
 import React, {useContext} from 'react';
 import './book-card.styles.scss';
 import {BookCardType} from './book-card.interface';
-import {FavoritesContext} from '../../contexts/favorites/favorites.context';
+import {ReadingListContext} from '../../contexts/reading-list/reading-list.context';
 
 const BookCard: React.FC<BookCardType> = ({id, volumeInfo}) => {
-    const { addItem, removeItem, isFavorite } = useContext(FavoritesContext);
+    const { addItem, removeItem, isRead } = useContext(ReadingListContext);
     const { title, authors = [], description, imageLinks, publishedDate, publisher } = volumeInfo;
     // TODO set fallback img
     const imageLink = imageLinks && imageLinks.hasOwnProperty('smallThumbnail') ? imageLinks['smallThumbnail'] : '';
@@ -16,7 +16,7 @@ const BookCard: React.FC<BookCardType> = ({id, volumeInfo}) => {
                 <figure>
                     <img src={`${imageLink}`} alt="title" className="img-fluid"/>
                 </figure>
-                {isFavorite(id)
+                {isRead(id)
                     ? (<button className="btn btn-outline-accent btn-remove-favorite" onClick={() => removeItem(id)} title="Remove from reading list">Remove</button>)
                     : (<button className="btn btn-accent btn-add-favorite" onClick={() => addItem(favoriteItem)} title="Add to reading list">Add</button>)
                 }

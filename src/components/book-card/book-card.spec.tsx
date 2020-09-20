@@ -2,101 +2,78 @@ import React from 'react';
 import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import '@testing-library/jest-dom/extend-expect';
-// import assert from 'assert';
 
-import {mockBookCardProps, mockReadingListItemAdd} from '../../testing-mockdata';
-import {FavoritesContext} from '../../contexts/favorites/favorites.context';
+import {mockBookCardProps, mockReadingListItem} from '../../testing-mockdata';
+import {ReadingListContext} from '../../contexts/reading-list/reading-list.context';
 import BookCard from './book-card';
-import {FavoriteBookType} from '../../contexts/favorites/favorites.interface';
+import {ReadingListItemType} from '../../contexts/reading-list/reading-list.interface';
 
 type ReadingListContextType = {
-    favorites: FavoriteBookType[];
-    favoritesCount: number;
-    addItem: (item: FavoriteBookType) => FavoriteBookType | void;
-    removeItem: (id: string) => FavoriteBookType | void;
-    isFavorite: (id: string) => boolean;
+    readingList: ReadingListItemType[];
+    readingListCount: number;
+    addItem: jest.Mock<any, any>;
+    removeItem: jest.Mock<any, any>;
+    isRead: (id: string) => boolean;
 };
 
-const mockReadingListProvider = {
-    favorites: [],
-    favoritesCount: 0,
-    addItem: () => {},
-    removeItem: () => {},
-    isFavorite: () => false
+const mockAddItem = jest.fn((mockReadingListItem: ReadingListItemType) => {});
+const mockRemoveItem = jest.fn((id: string) => {});
+
+const initialState = {
+    readingList: [],
+    readingListCount: 0,
+    addItem: mockAddItem,
+    removeItem: mockRemoveItem,
+    isRead: () => false
 };
 
 function renderBookCard(value: ReadingListContextType) {
     return render(
-        <FavoritesContext.Provider value={value}>
+        <ReadingListContext.Provider value={value}>
             <BookCard {...mockBookCardProps} />
-        </FavoritesContext.Provider>
+        </ReadingListContext.Provider>
     );
 }
 
 afterEach(cleanup);
 
-test('renders BookCard with title', async () => {
-    render(<BookCard {...mockBookCardProps} />);
-    const articleEl = screen.queryByRole('article');
-    expect(articleEl).toBeInTheDocument();
+describe('BookCard', () => {
+    test('renders BookCard with title', async () => {
+        render(<BookCard {...mockBookCardProps} />);
+        const articleEl = screen.queryByRole('article');
+        expect(articleEl).toBeInTheDocument();
 
-    const bookTitle = screen.getByText('The Lagos Consulate 1851 - 1861');
-    expect(bookTitle).toBeInTheDocument();
-});
+        const bookTitle = screen.getByText(/The Lagos Consulate 1851 - 1861/i);
+        expect(bookTitle).toBeInTheDocument();
+    });
 
-test("renders button remove from reading list correctly", async() => {
-    const mockReadingListProvider = {
-        favorites: [],
-        favoritesCount: 0,
-        addItem: () => {},
-        removeItem: () => {},
-        isFavorite: () => true
-    };
-    renderBookCard(mockReadingListProvider);
-    const buttonRemove = screen.getByRole('button');
+    test("remove from reading list button rendering and click event", async() => {
+        const mockReadingListProvider = {
+            readingList: [],
+            readingListCount: 0,
+            addItem: mockAddItem,
+            removeItem: mockRemoveItem,
+            isRead: () => true
+        };
+        renderBookCard(mockReadingListProvider);
+        const buttonRemove = screen.getByRole('button');
 
-    expect(buttonRemove).toBeInTheDocument();
-    expect(buttonRemove).toHaveTextContent('Remove');
-});
+        expect(buttonRemove).toBeInTheDocument();
+        expect(buttonRemove).toHaveTextContent(/Remove/i);
+        fireEvent.click(buttonRemove);
+        expect(mockReadingListProvider.removeItem).toHaveBeenCalledTimes(1);
+        expect(mockReadingListProvider.removeItem).toHaveBeenCalledWith('fq_oDwAAQBAJ');
+    });
 
-test("click on button add", async() => {
-    const mockReadingListProvider = {
-        favorites: [],
-        favoritesCount: 0,
-        addItem: () => {},
-        removeItem: () => {},
-        isFavorite: () => false
-    };
-    const isFavorite = jest.fn();
-    renderBookCard(mockReadingListProvider);
+    test("add to reading list button rendering and click event", async() => {
+        renderBookCard(initialState);
+        const buttonAdd = screen.getByRole('button');
 
-    // render(<BookCard {...mockBookCardProps}/>);
-    const buttonAdd = screen.getByRole('button');
+        expect(buttonAdd).toBeInTheDocument();
+        expect(buttonAdd).toHaveTextContent(/Add/i);
 
-    expect(buttonAdd).toBeInTheDocument();
-    expect(buttonAdd).toHaveTextContent(/Add/i);
-
-    fireEvent.mouseDown(buttonAdd, mockReadingListItemAdd);
-    // assert((mockReadingListProvider.removeItem).calledOnce, 'Fn was called once');
-    // await waitFor(() => screen.getByRole('button'));
-    await screen.findByText(/Remove/i);
-    // expect(isFavorite).toHaveBeenCalled();
-    expect(screen.getByRole('button')).toHaveTextContent('Remove');
-    // screen.debug();
-});
-
-test("renders button add to reading list correctly", async() => {
-    const mockReadingListProvider = {
-        favorites: [],
-        favoritesCount: 0,
-        addItem: () => {},
-        removeItem: () => {},
-        isFavorite: () => false
-    };
-
-    renderBookCard(mockReadingListProvider);
-    const buttonAdd = screen.getByRole('button');
-
-    expect(buttonAdd).toBeInTheDocument();
-    expect(buttonAdd).toHaveTextContent('Add');
-});
+        fireEvent.click(buttonAdd);
+        expect(initialState.addItem).toHaveBeenCalledTimes(1);
+        expect(initialState.addItem).toHaveBeenCalledWith(mockReadingListItem);
+    });
+})

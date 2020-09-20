@@ -1,4 +1,4 @@
-export interface FavoriteBookType {
+export interface ReadingListItemType {
     id: string;
     title: string;
     imageLink?: string;

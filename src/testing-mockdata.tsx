@@ -1,5 +1,6 @@
 // Sample data for mocking tests
 import {BookCardType} from "./components/book-card/book-card.interface";
+import {ReadingListItemType} from "./contexts/reading-list/reading-list.interface";
 
 export const mockBookCardProps = {
     "id": "fq_oDwAAQBAJ",
@@ -33,7 +34,7 @@ export const mockBookResults = [{
 }];
 export const mockBookResults_empty: BookCardType[] = [];
 
-export const mockReadingListItemAdd = {
+export const mockReadingListItem: ReadingListItemType = {
     "id": "fq_oDwAAQBAJ",
     "title": "The Lagos Consulate 1851 - 1861"
 }

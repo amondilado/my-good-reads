@@ -42,15 +42,16 @@ const BookSearch: React.FC = () => {
                                     name="gsearch"
                                     type="search"
                                     value={bookType}
-                                    placeholder="Search for books to add to your reading list and press Enter"
+                                    placeholder="Search for books to add to your reading list..."
                                     onChange={e => {
                                         updateBookType(e.target.value);
                                     }}
+                                    data-testid="book-search-input"
                                 />
                             </form>
 
                             {!bookType ? (
-                                <div className="text-center text-muted empty">
+                                <div className="text-center text-muted empty" data-testid="book-search-empty">
                                     <p>
                                         Try searching for a topic, for example
                                         <button className="btn btn-ghost" onClick={() => {

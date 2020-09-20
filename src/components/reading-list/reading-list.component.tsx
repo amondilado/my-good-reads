@@ -1,26 +1,26 @@
 import React, {useContext} from "react";
-import {FavoritesContext} from "../../contexts/favorites/favorites.context";
+import {ReadingListContext} from "../../contexts/reading-list/reading-list.context";
 import "./reading-list.styles.scss";
 
-const FavoriteBooks: React.FC = () => {
-    const { favorites, favoritesCount, removeItem } = useContext(FavoritesContext);
+const ReadingList: React.FC = () => {
+    const { readingList, readingListCount, removeItem } = useContext(ReadingListContext);
 
     return (
-        <div className={"small reading-list-container" + (!favoritesCount ? " _isEmpty" : "")}>
+        <div className="small reading-list-container">
             <h2 className="flex-justify-center">My reading list
-                <span className="flex-center reading-list-count">{favoritesCount}</span>
+                <span className="flex-center reading-list-count" data-testid="reading-list-count">{readingListCount}</span>
             </h2>
 
-            {favoritesCount ? (
-                <ul className="reading-list-content">
-                {favorites.map(item =>
+            {readingListCount ? (
+                <ul className="reading-list-content" data-testid="reading-list">
+                {readingList.map(item =>
                   (<li className="flex-justify-center reading-list-item" key={item.id}>{item.title} <button className="btn btn-remove-favorite" onClick={() => removeItem(item.id)}>
                       <span className="sr-only">Remove from reading list</span> &times;
                   </button></li>)
                 )}
-            </ul>) : (<p className="text-muted text-center">Your reading list is empty.</p>)}
+            </ul>) : (<p className="text-muted text-center" data-testid="reading-list-empty">Your reading list is empty.</p>)}
         </div>
     )
 }
 
-export default FavoriteBooks;
+export default ReadingList;
