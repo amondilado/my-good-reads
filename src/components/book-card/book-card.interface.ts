@@ -8,11 +8,7 @@ interface VolumeInfo {
     description?: string;
     publisher?: string;
 }
-export interface BookType {
+export interface BookCardType {
     id: string;
     volumeInfo: VolumeInfo;
 }
-
-export type BookResultsType = {
-    bookResults: BookType[]
-};

@@ -1,13 +1,14 @@
 import React, {useContext} from 'react';
-import './book-card.scss';
-import {BookType} from './book-card.interface';
-import {FavoritesContext} from '../../contexts/favorites/favorites.context';
+import './book-card.styles.scss';
+import {BookCardType} from './book-card.interface';
+import {ReadingListContext} from '../../contexts/reading-list/reading-list.context';
+import BookImageFallback from '../../book_fallback.jpg';
 
-const BookCard: React.FC<BookType> = ({id, volumeInfo}) => {
-    const { addItem, removeItem, isFavorite } = useContext(FavoritesContext);
+const BookCard: React.FC<BookCardType> = ({id, volumeInfo}) => {
+    const { addItem, removeItem, isRead } = useContext(ReadingListContext);
     const { title, authors = [], description, imageLinks, publishedDate, publisher } = volumeInfo;
-    const imageLink = imageLinks && imageLinks.hasOwnProperty('smallThumbnail') ? imageLinks['smallThumbnail'] : '';
-    const favoriteItem = { id, title, imageLink, authors };
+    const imageLink = imageLinks && imageLinks.hasOwnProperty('smallThumbnail') ? imageLinks['smallThumbnail'] : BookImageFallback;
+    const itemToAdd = { id, title, authors };
 
     return (
         <article className="book book-card">
@@ -15,18 +16,20 @@ const BookCard: React.FC<BookType> = ({id, volumeInfo}) => {
                 <figure>
                     <img src={`${imageLink}`} alt="title" className="img-fluid"/>
                 </figure>
-                {isFavorite(id)
+                {isRead(id)
                     ? (<button className="btn btn-outline-accent btn-remove-favorite" onClick={() => removeItem(id)} title="Remove from reading list">Remove</button>)
-                    : (<button className="btn btn-accent btn-add-favorite" onClick={() => addItem(favoriteItem)} title="Add to reading list">Add</button>)
+                    : (<button className="btn btn-accent btn-add-favorite" onClick={() => addItem(itemToAdd)} title="Add to reading list">Add</button>)
                 }
             </div>
-            <div className="small book-info">
-                <h2 className="book-title">{title}</h2>
-                <div>by: {authors.map((author, idx) => (
-                    (<span key={idx}>{author}</span>)
-                ))}</div>
-                <div>{publisher} {publishedDate}</div>
-                <p>{description}</p>
+            <div className="book-info">
+                <h3 className="book-title">{title}</h3>
+                <div className="book-meta">{authors.length > 0 && <span>Author: </span>}
+                    {authors.map((author, idx) => (
+                        (<span key={idx} className="meta">{author}</span>)
+                    ))}
+                </div>
+                <div className="small book-meta book-publish-info">{publisher ? <span className="meta">Publisher: {publisher}</span> : ''} {publishedDate ? <span className="meta">Published date: {publishedDate}</span>: ''}</div>
+                <div className="book-description">{description}</div>
             </div>
         </article>
     );

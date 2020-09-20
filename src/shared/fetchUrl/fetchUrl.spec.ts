@@ -1,3 +1,4 @@
+// sinon.fake.resolves throws TypeError: Cannot read property 'resolves' of undefined
 import { expect } from 'chai';
 import fetchUrl from './fetchUrl';
 import sinon from 'sinon';

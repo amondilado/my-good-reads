@@ -1,7 +1,7 @@
 import React from 'react';
 import './styles/App.scss';
 import BookSearch from './components/book-search/BookSearch';
-import FavoriteBooks from './components/reading-list/reading-list.component';
+import ReadingList from './components/reading-list/reading-list.component';
 
 function App() {
     return (
@@ -14,7 +14,7 @@ function App() {
             <main className="main-content">
                 <BookSearch />
                 <div className="sidebar">
-                    <FavoriteBooks />
+                    <ReadingList />
                 </div>
             </main>
             <footer className="text-center small text-muted footer">My good reads - Made with &hearts; by Marina Kampisiou</footer>
