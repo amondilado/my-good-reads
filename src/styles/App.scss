@@ -80,7 +80,8 @@ a {
   width: 100%;
 }
 
-.book--container {
+.book--container,
+.footer {
   margin-bottom: $spacing-xs;
 }
 
@@ -104,7 +105,7 @@ a {
   }
   .footer {
     position: fixed;
-    bottom: 1rem;
+    bottom: 0;
     right: 1rem;
   }
   .search-params form {

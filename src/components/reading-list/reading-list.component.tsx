@@ -14,10 +14,18 @@ const ReadingList: React.FC = () => {
             {readingListCount ? (
                 <ul className="reading-list-content" data-testid="reading-list">
                 {readingList.map(item =>
-                  (<li className="flex-justify-center reading-list-item" key={item.id}>{item.title} <button className="btn btn-remove-favorite" onClick={() => removeItem(item.id)}>
-                      <span className="sr-only">Remove from reading list</span> &times;
-                  </button></li>)
-                )}
+                    (<li className="flex-justify-center reading-list-item" key={item.id}>
+                        <div>
+                            <div>{item.title}</div>
+                            {item.hasOwnProperty('authors') && item.authors && item.authors.map((author, idx) => (
+                                (<span key={idx} className="small">{author}</span>)
+                            ))}
+                        </div>
+                        <button className="btn btn-remove-favorite" onClick={() => removeItem(item.id)} type="button">
+                            <span className="sr-only">Remove from reading list</span> &times;
+                        </button>
+                    </li>
+                ))}
             </ul>) : (<p className="text-muted text-center" data-testid="reading-list-empty">Your reading list is empty.</p>)}
         </div>
     )

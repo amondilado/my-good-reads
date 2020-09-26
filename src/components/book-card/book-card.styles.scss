@@ -29,3 +29,31 @@ $book-card-img-width-mobile: 80px;
   flex-grow: 1;
   padding-left: $spacing-xs;
 }
+
+.book-title {
+  font-size: 1.250rem;
+  font-weight: normal;
+  margin: 0 0 $spacing-xxs 0;
+}
+.book-description {
+  color: $gray70;
+  font-size: .938rem;
+  line-height: 1.375;
+  position: relative;
+  max-height: 80px;
+  overflow: hidden;
+}
+
+.book-meta .meta + .meta {
+  &::before {
+    content: ',';
+    position: absolute;
+    left: -.2em;
+  }
+  padding-left: .5em;
+  position: relative;
+}
+
+.book-publish-info {
+  margin-bottom: $spacing-xxs;
+}
