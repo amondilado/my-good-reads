@@ -3,13 +3,10 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import ReadingListProvider from './contexts/reading-list/reading-list.context'
 
 ReactDOM.render(
   <React.StrictMode>
-      <ReadingListProvider>
-        <App />
-      </ReadingListProvider>
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );

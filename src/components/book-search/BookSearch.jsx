@@ -1,20 +1,19 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useContext} from "react";
 import {getBooksByType} from "./book-search.service";
-import {BookCardType} from '../book-card/book-card.interface';
 import {debounce} from '../../shared/fetchUrl/fetchUrl';
 import BookList from '../book-list/book-list';
+import {BooksContext} from '../../contexts/books.context';
 
-const BookSearch: React.FC = () => {
-    const [searchResults, updateSearchResults] = useState<BookCardType[]>([]);
-    const [bookType, updateBookType] = useState<string>("");
+const BookSearch = () => {
+    const { dispatch } = useContext(BooksContext);
+    const [bookType, updateBookType] = useState("");
     const [bookTypeToSearch, updateBookTypeToSearch] = useState("");
 
     async function requestBooks() {
         if (bookTypeToSearch) {
-            const allBooks = await getBooksByType(bookTypeToSearch);
-            if(typeof allBooks !== 'undefined' && allBooks.hasOwnProperty('items')) {
-                updateSearchResults(allBooks.items);
-            }
+            const searchRes = await getBooksByType(bookTypeToSearch);
+            console.log('searchRes', searchRes);
+            dispatch({ type: "BOOKS_FETCHED", payload: searchRes });
         }
     }
 
@@ -22,6 +21,7 @@ const BookSearch: React.FC = () => {
         async function getAllBooks() {
             await requestBooks();
         }
+        dispatch({ type: "BOOKS_FETCHING" });
         debounce(getAllBooks, 500)();
     }, [bookTypeToSearch]);
 
@@ -62,7 +62,7 @@ const BookSearch: React.FC = () => {
                                     </p>
                                 </div>
                               )
-                              : (<BookList bookResults={searchResults} />)
+                              : (<BookList />)
                             }
                         </div>
                     </div>

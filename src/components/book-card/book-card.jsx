@@ -1,14 +1,12 @@
 import React, {useContext} from 'react';
 import './book-card.styles.scss';
-import {BookCardType} from './book-card.interface';
-import {ReadingListContext} from '../../contexts/reading-list/reading-list.context';
 import BookImageFallback from '../../assets/book_fallback.jpg';
+import {BooksContext} from "../../contexts/books.context";
 
-const BookCard: React.FC<BookCardType> = ({id, volumeInfo}) => {
-    const { addItem, removeItem, isRead } = useContext(ReadingListContext);
-    const { title, authors = [], description, imageLinks, publishedDate, publisher } = volumeInfo;
-    const imageLink = imageLinks && imageLinks.hasOwnProperty('smallThumbnail') ? imageLinks['smallThumbnail'] : BookImageFallback;
-    const itemToAdd = { id, title, authors };
+const BookCard = ({data}) => {
+    const { id, title, authors = [], description, coverUrl, publishedDate, publisher, isRead } = data;
+    const imageLink = coverUrl || BookImageFallback;
+    const {dispatch} = useContext(BooksContext);
 
     return (
         <article className="book book-card">
@@ -16,9 +14,9 @@ const BookCard: React.FC<BookCardType> = ({id, volumeInfo}) => {
                 <figure>
                     <img src={`${imageLink}`} alt="title" className="img-fluid"/>
                 </figure>
-                {isRead(id)
-                    ? (<button className="btn btn-outline-accent btn-remove-favorite" onClick={() => removeItem(id)} title="Remove from reading list">Remove</button>)
-                    : (<button className="btn btn-accent btn-add-favorite" onClick={() => addItem(itemToAdd)} title="Add to reading list">Add</button>)
+                {isRead
+                    ? (<button className="btn btn-outline-accent btn-remove-favorite" onClick={() => dispatch({type: 'REMOVE', payload: id})} title="Remove from reading list">Remove {isRead ? "true" : "false"}</button>)
+                    : (<button className="btn btn-accent btn-add-favorite" onClick={() => dispatch({type: 'ADD', payload: data})} title="Add to reading list">Add {isRead ? "true" : "false"}</button>)
                 }
             </div>
             <div className="book-info">

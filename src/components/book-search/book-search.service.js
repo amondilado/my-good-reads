@@ -1,9 +1,9 @@
 import fetchUrl from '../../shared/fetchUrl/fetchUrl';
 
-export async function getBooksByType(type: string) {
+export async function getBooksByType() {
     try {
         // return await fetchUrl(`https://www.googleapis.com/books/v1/volumes?q=${type}`, {
-        return await fetchUrl(`data_dev.json`, {
+        return await fetchUrl(`sampleResponse.json`, {
             method: 'GET',
             headers: {
                 'content-type': 'application/json',
