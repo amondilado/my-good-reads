@@ -1,7 +1,29 @@
-import React, {useReducer} from 'react';
+import React, {useReducer, createContext, Dispatch} from 'react';
 import {updateBooks} from './book.context.utils';
+import {BooksContextInitialStateType, BookType} from '../types';
 
-let booksReducer = (state, action) => {
+const INITIAL_STATE = {
+    fetching: false,
+    books: [],
+    readBooks: [],
+    count: 0
+};
+
+type Action =
+| { type: 'BOOKS_FETCHING' }
+| { type: 'BOOKS_FETCHED', payload: BookType[] }
+| { type: 'ADD', payload: BookType }
+| { type: 'REMOVE', payload: string };
+
+const BooksContext = createContext<{
+        state: BooksContextInitialStateType,
+        dispatch: Dispatch<any>
+    }>({
+    state: INITIAL_STATE,
+    dispatch: () => null
+});
+
+let booksReducer = (state: BooksContextInitialStateType, action: Action): BooksContextInitialStateType | any => {
     switch (action.type) {
         case "BOOKS_FETCHING":
             console.log('BOOKS_FETCHING');
@@ -30,21 +52,13 @@ let booksReducer = (state, action) => {
     }
 };
 
-const INITIAL_STATE = {
-    fetching: false,
-    books: [],
-    readBooks: [],
-    count: 0
-};
-
-const BooksContext = React.createContext(INITIAL_STATE);
-function BooksProvider(props) {
+const BooksProvider: React.FC = ({children}) => {
     const [state, dispatch] = useReducer(booksReducer, INITIAL_STATE);
 
     return (
         <BooksContext.Provider value={{ state, dispatch }}>
-            {props.children}
+            {children}
         </BooksContext.Provider>
     );
-}
+};
 export { BooksContext, BooksProvider };

@@ -1,6 +1,7 @@
 import React, {useContext} from "react";
 import {BooksContext} from "../../contexts/books.context";
 import "./reading-list.styles.scss";
+import {dateFormat} from '../../shared/utils';
 
 const ReadingList = () => {
     const {state, dispatch} = useContext(BooksContext);
@@ -16,8 +17,8 @@ const ReadingList = () => {
                 {state.readBooks.map(item =>
                     (<li className="flex-justify-center reading-list-item" key={item.id}>
                         <div>
-                            <div>{item.title}</div>
-                            {item.hasOwnProperty('authors') && item.authors && item.authors.map((author, idx) => (
+                            <div>{item.title}{ item.publishedDate && <span className="small">, {dateFormat(item.publishedDate)}</span> }</div>
+                            { item.hasOwnProperty('authors') && item.authors && item.authors.map((author, idx) => (
                                 (<span key={idx} className="small">{author}</span>)
                             ))}
                         </div>

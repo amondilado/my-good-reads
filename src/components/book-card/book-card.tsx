@@ -1,9 +1,11 @@
-import React, {useContext} from 'react';
+import React, {FC, useContext} from 'react';
 import './book-card.styles.scss';
 import BookImageFallback from '../../assets/book_fallback.jpg';
 import {BooksContext} from "../../contexts/books.context";
+import {BookType} from '../../types';
+import {dateFormat} from '../../shared/utils';
 
-const BookCard = ({data}) => {
+const BookCard: React.FC<{ data: BookType}> = ({data}) => {
     const { id, title, authors = [], description, coverUrl, publishedDate, publisher, isRead } = data;
     const imageLink = coverUrl || BookImageFallback;
     const {dispatch} = useContext(BooksContext);
@@ -26,7 +28,7 @@ const BookCard = ({data}) => {
                         (<span key={idx} className="meta">{author}</span>)
                     ))}
                 </div>
-                <div className="small book-meta book-publish-info">{publisher ? <span className="meta">Publisher: {publisher}</span> : ''} {publishedDate ? <span className="meta">Published date: {publishedDate}</span>: ''}</div>
+                <div className="small book-meta book-publish-info">{publisher ? <span className="meta">Publisher: {publisher}</span> : ''} {publishedDate ? <span className="meta">Published date: {dateFormat(publishedDate)}</span>: ''}</div>
                 <div className="book-description">{description}</div>
             </div>
         </article>
