@@ -1,3 +1,5 @@
-export function dateFormat(date: Date) {
-    return new Date().getFullYear();
+export function dateFormat(date: string) {
+    if (!Date.parse(date)) return false;
+
+    return new Date(date).getFullYear();
 }

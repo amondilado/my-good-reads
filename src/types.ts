@@ -1,17 +1,17 @@
-export interface BookType {
+export interface IBook {
     id: string,
     title?: string,
     authors?: Array<string>,
     publisher?: string,
-    publishedDate?: Date,
+    publishedDate?: string,
     coverUrl?: string,
     description?: string,
     isRead: boolean
 }
 
-export interface BooksContextInitialStateType {
+export interface IBooksContextInitialState {
     fetching: boolean,
-    books: BookType[],
-    readBooks: BookType[],
+    books: IBook[],
+    readBooks: IBook[],
     count: number
 }

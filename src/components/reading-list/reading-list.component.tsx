@@ -5,16 +5,17 @@ import {dateFormat} from '../../shared/utils';
 
 const ReadingList = () => {
     const {state, dispatch} = useContext(BooksContext);
+    const {count, readBooks} = state;
 
     return (
         <div className="small reading-list-container">
             <h2 className="flex-justify-center">My reading list
-                <span className="flex-center reading-list-count" data-testid="reading-list-count">{state.count}</span>
+                <span className="flex-center reading-list-count" data-testid="reading-list-count">{count}</span>
             </h2>
 
-            {state.readBooks ? (
+            {readBooks.length > 0 ? (
                 <ul className="reading-list-content" data-testid="reading-list">
-                {state.readBooks.map(item =>
+                {readBooks.map(item =>
                     (<li className="flex-justify-center reading-list-item" key={item.id}>
                         <div>
                             <div>{item.title}{ item.publishedDate && <span className="small">, {dateFormat(item.publishedDate)}</span> }</div>

@@ -16,7 +16,7 @@ const BookList = () => {
             <div className="book-list">
                 {header}
                 {state.books.map(book =>
-                    (<BookCard key={book.id} data={book} />)
+                    (<BookCard key={book['id']} data={book} />)
                 )}
             </div>
         );
