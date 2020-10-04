@@ -5,3 +5,9 @@ export const updateBooks = (books: BookType[], id: string) => {
         ? {...book, isRead: !book.isRead}
         : book)
 };
+
+export const updateReadBooks = (books: BookType[]) => {
+  return books.filter(book => {
+      return book.isRead
+  })
+};

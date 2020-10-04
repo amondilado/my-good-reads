@@ -1,5 +1,5 @@
 import React, {useReducer, createContext, Dispatch} from 'react';
-import {updateBooks} from './book.context.utils';
+import {updateBooks, updateReadBooks} from './book.context.utils';
 import {BooksContextInitialStateType, BookType} from '../types';
 
 const INITIAL_STATE = {
@@ -30,7 +30,8 @@ let booksReducer = (state: BooksContextInitialStateType, action: Action): BooksC
             return { ...state, fetching: true };
         case "BOOKS_FETCHED":
             console.log('BOOKS_FETCHED');
-            return { ...state, fetching: false, books: action.payload };
+            const readbooks = updateReadBooks(action.payload);
+            return { fetching: false, books: action.payload, readBooks: readbooks, count: readbooks.length };
         case "ADD":
             console.log('ADD');
             return {
